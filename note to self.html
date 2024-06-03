@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic H1 Text</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #input-text {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s;
+            margin-right: 10px; /* Add margin for spacing */
+        }
+        #input-text:focus {
+            border-color: #666;
+        }
+        #input-text.invalid {
+            border-color: red;
+            animation: shake 0.5s;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .text-container {
+            margin-top: 20px;
+            width: 80%;
+            text-align: center;
+            min-height: 100px; /* Set a fixed height */
+        }
+        .dynamic-text {
+            font-size: 24px;
+            color: #333;
+            margin: 10px 0;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+        }
+        .dynamic-text:hover {
+            background-color: red;
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25%, 75% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+        }
+
+        /* Dropdown styling */
+        .dropdown {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000; /* Ensure dropdown is above other elements */
+            animation: slideDown 0.5s forwards;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .dropbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 5px;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="input-text" placeholder="Enter text here">
+        <button id="button-add-text" onclick="addText()">Add H1 Text</button>
+    </div>
+    <div class="dropdown">
+        <button class="dropbtn">Language</button>
+        <div class="dropdown-content">
+            <a href="#" onclick="changeLanguage('en')">English</a>
+            <a href="#" onclick="changeLanguage('cs')">Czech</a>
+            <a href="#" onclick="changeLanguage('es')">Spanish</a>
+            <a href="#" onclick="changeLanguage('fr')">French</a>
+            <a href="#" onclick="changeLanguage('de')">German</a>
+            <a href="#" onclick="changeLanguage('pl')">Polish</a>
+        </div>
+    </div>
+    <div id="text-container" class="text-container"></div>
+
+    <script>
+        function addText() {
+            var inputElement = document.getElementById('input-text');
+            var text = inputElement.value.trim();
+            
+            if (text === "") {
+                inputElement.classList.add('invalid');
+                setTimeout(function() {
+                    inputElement.classList.remove('invalid');
+                }, 500);
+                return;
+            }
+
+            var newH1 = document.createElement('h1');
+            newH1.className = 'dynamic-text';
+            newH1.innerText = text;
+
+            newH1.addEventListener('click', function() {
+                newH1.remove();
+            });
+
+            document.getElementById
+            ('text-container').appendChild(newH1);
+
+// Animate text disappearing
+inputElement.value = '';
+inputElement.classList.add('disappear');
+setTimeout(function() {
+    inputElement.classList.remove('disappear');
+}, 500);
+}
+
+function changeLanguage(lang) {
+var inputTextPlaceholder;
+var buttonText;
+
+switch (lang) {
+    case 'en':
+        inputTextPlaceholder = 'Enter text here';
+        buttonText = 'Enter';
+        break;
+    case 'cs':
+        inputTextPlaceholder = 'Zadejte text zde';
+        buttonText = 'Enter';
+        break;
+    case 'es':
+        inputTextPlaceholder = 'Ingrese texto aquí';
+        buttonText = 'Enter';
+        break;
+    case 'fr':
+        inputTextPlaceholder = 'Entrez du texte ici';
+        buttonText = 'Enter';
+        break;
+    case 'de':
+        inputTextPlaceholder = 'Geben Sie hier Text ein';
+        buttonText = 'Enter';
+        break;
+    case 'pl':
+        inputTextPlaceholder = 'Wprowadź tekst tutaj';
+        buttonText = 'Enter';
+        break;
+    default:
+        inputTextPlaceholder = 'Enter text here';
+        buttonText = 'Enter';
+}
+
+document.getElementById('input-text').setAttribute('placeholder', inputTextPlaceholder);
+document.getElementById('button-add-text').innerText = buttonText;
+}
+</script>
+</body>
+</html>
