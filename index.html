@@ -1,479 +1,426 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Dynamic H1 Text</title>
-
+    <title>Note To Self</title>
     <style>
-
         body {
-
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
-
-            justify-content: center;
-
+            justify-content: flex-start;
             min-height: 100vh;
-
             margin: 0;
-
             font-family: 'Arial', sans-serif;
-
             background-color: #f0f0f0;
-
             color: #333;
-
         }
-
-        .container {
-
-            position: relative;
-
-            display: flex;
-
-            align-items: center;
-
-            margin-top: 20px;
-
-        }
-
-        #input-text {
-
-            padding: 10px;
-
-            font-size: 16px;
-
-            border: 2px solid #ccc;
-
-            border-radius: 5px;
-
-            outline: none;
-
-            transition: border-color 0.3s;
-
-            margin-right: 10px; /* Add margin for spacing */
-
-        }
-
-        #input-text:focus {
-
-            border-color: #666;
-
-        }
-
-        #input-text.invalid {
-
-            border-color: red;
-
-            animation: shake 0.5s;
-
-        }
-
-        button {
-
-            padding: 10px 20px;
-
-            font-size: 16px;
-
-            cursor: pointer;
-
-            background-color: #4CAF50;
-
-            color: white;
-
-            border: none;
-
-            border-radius: 5px;
-
-            transition: background-color 0.3s;
-
-        }
-
-        button:hover {
-
-            background-color: #45a049;
-
-        }
-
-        .text-container {
-
-            margin-top: 20px;
-
-            width: 80%;
-
-            text-align: center;
-
-            min-height: 100px; /* Set a fixed height */
-
-        }
-
-        .dynamic-text {
-
-            font-size: 24px;
-
+        .title {
+            margin-top: 50px;
+            font-size: 36px;
+            font-weight: bold;
             color: #333;
-
-            margin: 10px 0;
-
-            background-color: #ffffff;
-
-            padding: 10px;
-
-            border-radius: 5px;
-
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-            transition: background-color 0.3s, transform 0.3s;
-
-            opacity: 0;
-
-            animation: fadeIn 0.5s forwards;
-
         }
-
-        .dynamic-text:hover {
-
-            background-color: red;
-
-            transform: scale(1.05);
-
-            cursor: pointer;
-
-        }
-
-        @keyframes fadeIn {
-
-            from {
-
-                opacity: 0;
-
-            }
-
-            to {
-
-                opacity: 1;
-
-            }
-
-        }
-
-        @keyframes shake {
-
-            0%, 100% { transform: translateX(0); }
-
-            25%, 75% { transform: translateX(-10px); }
-
-            50% { transform: translateX(10px); }
-
-        }
-
-
-
-        /* Dropdown styling */
-
-        .dropdown {
-
+        .language-select {
             position: absolute;
-
             top: 10px;
-
             right: 10px;
-
-            z-index: 1000; /* Ensure dropdown is above other elements */
-
-            animation: slideDown 0.5s forwards;
-
         }
-
-
-
-        @keyframes slideDown {
-
-            from {
-
-                transform: translateY(-100%);
-
-            }
-
-            to {
-
-                transform: translateY(0);
-
-            }
-
-        }
-
-
-
-        .dropbtn {
-
-            background-color: #4CAF50;
-
-            color: white;
-
-            padding: 10px;
-
-            font-size: 16px;
-
-            border: none;
-
+        .language-select select {
+            padding: 5px;
+            font-size: 14px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
             cursor: pointer;
-
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .language-select select:focus {
+            border-color: #666;
+            transform: scale(1.05);
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            position: sticky;
+            top: 0;
+            background-color: #f0f0f0;
+            padding: 10px 0;
+            z-index: 1000;
+            width: 100%;
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+        }
+        #input-text {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            height: 40px;
+            border: 2px solid #ccc;
             border-radius: 5px;
-
+            outline: none;
+            resize: none;
+            transition: border-color 0.3s;
         }
-
-
-
-        .dropdown-content {
-
-            display: none;
-
-            position: absolute;
-
-            top: 40px;
-
-            right: 0;
-
-            background-color: #f9f9f9;
-
-            min-width: 160px;
-
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-
-            z-index: 1;
-
+        #input-text:focus {
+            border-color: #666;
+        }
+        #input-text.invalid {
+            border-color: red;
+            animation: shake 0.5s;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
             border-radius: 5px;
-
+            transition: background-color 0.3s, transform 0.3s;
         }
-
-
-
-        .dropdown-content a {
-
-            color: black;
-
-            padding: 12px 16px;
-
-            text-decoration: none;
-
-            display: block;
-
-        }
-
-
-
-        .dropdown-content a:hover {
-
-            background-color: #f1f1f1;
-
-        }
-
-
-
-        .dropdown:hover .dropdown-content {
-
-            display: block;
-
-        }
-
-
-
-        .dropdown:hover .dropbtn {
-
+        button:hover {
             background-color: #45a049;
-
         }
+        button:active {
+            transform: scale(0.95);
+        }
+        .text-container {
+            margin-top: 20px;
+            width: 80%;
+            text-align: center;
+        }
+        .dynamic-text {
+            font-size: 24px;
+            color: #333;
+            margin: 10px 0;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s, opacity 0.5s;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
+            word-wrap: break-word;
+        }
+        .dynamic-text:hover {
+            background-color: red;
+            color: white;
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+        .dynamic-text.removing {
+            animation: fadeOut 0.5s forwards;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25%, 75% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+        }
+/* Add this CSS for the save/load menu */
+.save-load-menu {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.arrow {
+    cursor: pointer;
+    font-size: 24px;
+    transition: transform 0.3s;
+    width: 30px;
+    height: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: translateX(-50%) scaleY(1); }
+    50% { transform: translateX(-50%) scaleY(0.8); }
+    100% { transform: translateX(-50%) scaleY(1); }
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.menu.hidden {
+    display: none;
+}
+
+.menu input {
+    margin: 5px 0;
+    padding: 10px;
+    font-size: 16px;
+    width: 200px;
+}
+
+.menu button {
+    margin: 5px 0;
+    padding: 10px;
+    font-size: 16px;
+    width: 100px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.menu button:hover {
+    background-color: #45a049;
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+.menu input, .menu button {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+    width: 200px;
+}
+
+
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25%, 75% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+}
 
     </style>
-
 </head>
-
 <body>
-
+    <div class="title">Note To Self</div>
+    <div class="language-select">
+        <select id="language" onchange="changeLanguage()">
+            <option value="en">EN</option>
+            <option value="es">ES</option>
+            <option value="fr">FR</option>
+            <option value="de">DE</option>
+            <option value="it">IT</option>
+            <option value="pt">PT</option>
+            <option value="ru">RU</option>
+            <option value="zh">ZH</option>
+            <option value="ja">JA</option>
+            <option value="ko">KO</option>
+            <option value="ar">AR</option>
+            <option value="hi">HI</option>
+            <option value="bn">BN</option>
+            <option value="pa">PA</option>
+            <option value="jv">JV</option>
+            <option value="ms">MS</option>
+            <option value="th">TH</option>
+            <option value="vi">VI</option>
+            <option value="tr">TR</option>
+            <option value="pl">PL</option>
+            <option value="uk">UK</option>
+            <option value="he">HE</option>
+            <option value="fi">FI</option>
+            <option value="el">EL</option>
+            <option value="hu">HU</option>
+            <option value="sv">SV</option>
+            <option value="no">NO</option>
+            <option value="da">DA</option>
+            <option value="nl">NL</option>
+            <option value="cs">CS</option>
+            <option value="ro">RO</option>
+            <option value="sk">SK</option>
+        </select>
+    </div>
     <div class="container">
-
-        <input type="text" id="input-text" placeholder="Enter text here">
-
-        <button id="button-add-text" onclick="addText()">Add H1 Text</button>
-
-    </div>
-
-    <div class="dropdown">
-
-        <button class="dropbtn">Language</button>
-
-        <div class="dropdown-content">
-
-            <a href="#" onclick="changeLanguage('en')">English</a>
-
-            <a href="#" onclick="changeLanguage('cs')">Czech</a>
-
-            <a href="#" onclick="changeLanguage('es')">Spanish</a>
-
-            <a href="#" onclick="changeLanguage('fr')">French</a>
-
-            <a href="#" onclick="changeLanguage('de')">German</a>
-
-            <a href="#" onclick="changeLanguage('pl')">Polish</a>
-
+        <div class="input-container">
+            <input type="text" id="input-text" placeholder="Enter text here">
+            <button onclick="addText()">Add</button>
         </div>
-
     </div>
-
     <div id="text-container" class="text-container"></div>
-
+<!-- Add this before the closing body tag -->
+<div class="save-load-menu">
+    <div class="arrow" onclick="toggleMenu()">&#9650;</div>
+    <div class="menu hidden">
+        <input type="text" id="save-password" placeholder="Enter save password">
+        <button onclick="saveNotes()">Save Notes</button>
+        <input type="text" id="load-password" placeholder="Enter load password">
+        <button onclick="loadNotes()">Load Notes</button>
+    </div>
+</div>
 
 
     <script>
+        const languageData = {
+            en: { placeholder: "Enter text here", buttonText: "Add" },
+            es: { placeholder: "Ingrese texto aquí", buttonText: "Agregar texto H1" },
+            fr: { placeholder: "Entrez le texte ici", buttonText: "Ajouter du texte H1" },
+            de: { placeholder: "Geben Sie hier den Text ein", buttonText: "H1-Text hinzufügen" },
+            it: { placeholder: "Inserisci il testo qui", buttonText: "Aggi"},
+            el: { placeholder: "Εισάγετε το κείμενο εδώ", buttonText: "Προσθήκη κειμένου H1" },
+            hu: { placeholder: "Írja be a szöveget ide", buttonText: "H1 szöveg hozzáadása" },
+            sv: { placeholder: "Skriv text här", buttonText: "Lägg till H1-text" },
+            no: { placeholder: "Skriv inn tekst her", buttonText: "Legg til H1-tekst" },
+            da: { placeholder: "Indtast tekst her", buttonText: "Tilføj H1-tekst" },
+            nl: { placeholder: "Voer hier tekst in", buttonText: "H1-tekst toevoegen" },
+            cs: { placeholder: "Zadejte text zde", buttonText: "Přidat text H1" },
+            ro: { placeholder: "Introduceți text aici", buttonText: "Adăugați text H1" },
+            sk: { placeholder: "Zadajte text sem", buttonText: "Pridať text H1" }
+        };
+
+        function changeLanguage() {
+            const selectedLanguage = document.getElementById('language').value;
+            const data = languageData[selectedLanguage];
+            document.getElementById('input-text').placeholder = data.placeholder;
+            document.querySelector('button').innerText = data.buttonText;
+        }
 
         function addText() {
-
-            var inputElement = document.getElementById('input-text');
-
-            var text = inputElement.value.trim();
-
-            
+            const inputElement = document.getElementById('input-text');
+            let text = inputElement.value.trim();
 
             if (text === "") {
-
                 inputElement.classList.add('invalid');
-
-                setTimeout(function() {
-
+                setTimeout(() => {
                     inputElement.classList.remove('invalid');
-
                 }, 500);
-
                 return;
-
             }
 
+            if (text.toLowerCase() === "meow") {
+                text += " 🐱";
+            }
 
-
-            var newH1 = document.createElement('h1');
-
+            const newH1 = document.createElement('h1');
             newH1.className = 'dynamic-text';
-
             newH1.innerText = text;
 
-
-
-            newH1.addEventListener('click', function() {
-
-                newH1.remove();
-
+            newH1.addEventListener('click', () => {
+                newH1.classList.add('removing');
+                setTimeout(() => {
+                    newH1.remove();
+                }, 500); // Match the transition duration
             });
 
+            document.getElementById('text-container').appendChild(newH1);
+            inputElement.value = '';
+        }
 
+        // Set initial language
+        changeLanguage();
+// Add this JavaScript at the end of your script block
 
-            document.getElementById
-
-            ('text-container').appendChild(newH1);
-
-
-
-// Animate text disappearing
-
-inputElement.value = '';
-
-inputElement.classList.add('disappear');
-
-setTimeout(function() {
-
-    inputElement.classList.remove('disappear');
-
-}, 500);
-
+function toggleMenu() {
+    const menu = document.querySelector('.menu');
+    const arrow = document.querySelector('.arrow');
+    menu.classList.toggle('hidden');
+    arrow.style.transform = menu.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
 }
 
+function saveNotes() {
+    const passwordInput = document.getElementById('save-password');
+    const password = passwordInput.value.trim();
+    const notes = Array.from(document.querySelectorAll('.dynamic-text')).map(note => note.innerText).join('\n');
+    const language = document.getElementById('language').value;
+    const timeSaved = new Date().toLocaleString();
 
-
-function changeLanguage(lang) {
-
-var inputTextPlaceholder;
-
-var buttonText;
-
-
-
-switch (lang) {
-
-    case 'en':
-
-        inputTextPlaceholder = 'Enter text here';
-
-        buttonText = 'Enter';
-
-        break;
-
-    case 'cs':
-
-        inputTextPlaceholder = 'Zadejte text zde';
-
-        buttonText = 'Enter';
-
-        break;
-
-    case 'es':
-
-        inputTextPlaceholder = 'Ingrese texto aquí';
-
-        buttonText = 'Enter';
-
-        break;
-
-    case 'fr':
-
-        inputTextPlaceholder = 'Entrez du texte ici';
-
-        buttonText = 'Enter';
-
-        break;
-
-    case 'de':
-
-        inputTextPlaceholder = 'Geben Sie hier Text ein';
-
-        buttonText = 'Enter';
-
-        break;
-
-    case 'pl':
-
-        inputTextPlaceholder = 'Wprowadź tekst tutaj';
-
-        buttonText = 'Enter';
-
-        break;
-
-    default:
-
-        inputTextPlaceholder = 'Enter text here';
-
-        buttonText = 'Enter';
-
+    if (password) {
+        const saveData = {
+            password,
+            notes,
+            language,
+            timeSaved,
+            lastLoaded: timeSaved
+        };
+        localStorage.setItem('savedNotes', JSON.stringify(saveData));
+        passwordInput.value = ''; // Clear the input field after saving
+    } else {
+        triggerShakeAnimation(passwordInput);
+    }
 }
 
+function loadNotes() {
+    const passwordInput = document.getElementById('load-password');
+    const password = passwordInput.value.trim();
+    const savedData = JSON.parse(localStorage.getItem('savedNotes'));
 
-
-document.getElementById('input-text').setAttribute('placeholder', inputTextPlaceholder);
-
-document.getElementById('button-add-text').innerText = buttonText;
-
+    if (password && savedData) {
+        if (savedData.password === password) {
+            document.getElementById('language').value = savedData.language;
+            changeLanguage();
+            document.getElementById('text-container').innerHTML = '';
+            savedData.notes.split('\n').forEach(note => addNoteToPage(note));
+            alert('Notes loaded successfully.');
+            savedData.lastLoaded = new Date().toLocaleString(); // Update last loaded time
+            localStorage.setItem('savedNotes', JSON.stringify(savedData)); // Save the updated data
+            passwordInput.value = ''; // Clear the input field after loading
+        } else {
+            triggerShakeAnimation(passwordInput);
+            alert('Incorrect password.');
+        }
+    } else {
+        triggerShakeAnimation(passwordInput);
+        alert('No saved notes found.');
+    }
 }
 
-</script>
+function triggerShakeAnimation(element) {
+    element.classList.add('shake');
+    setTimeout(() => {
+        element.classList.remove('shake');
+    }, 500);
+}
 
+function addNoteToPage(text) {
+    const newH1 = document.createElement('h1');
+    newH1.className = 'dynamic-text';
+    newH1.innerText = text;
+
+    newH1.addEventListener('click', () => {
+        newH1.classList.add('removing');
+        setTimeout(() => {
+            newH1.remove();
+        }, 500); // Match the transition duration
+    });
+
+    document.getElementById('text-container').appendChild(newH1);
+}
+
+    </script>
 </body>
-
 </html>
+
